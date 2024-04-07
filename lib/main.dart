@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class DropdownButtonMenu extends StatefulWidget {
-  const DropdownButtonMenu({Key? key}) : super(key: key);
+  const DropdownButtonMenu({super.key});
 
   @override
   State<DropdownButtonMenu> createState() => _DropdownButtonMenuState();
