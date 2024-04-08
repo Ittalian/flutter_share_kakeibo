@@ -26,6 +26,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _selectIndex = 0;
+  var pullDownText = "";
 
   final _pages = <Widget>[
     Column(children: [
@@ -54,9 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       const Padding(padding: EdgeInsets.only(top: 50)),
-      const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(
           '項目',
           style: TextStyle(
@@ -65,7 +64,30 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         SizedBox(width: 50),
         DropdownButtonMenu(),
-      ])
+      ]),
+      const Padding(padding: EdgeInsets.only(top: 75)),
+      ElevatedButton.icon(
+        onPressed: () {
+          
+        },
+        icon: const Icon(
+          Icons.pan_tool_alt,
+          color: Color.fromARGB(255, 0, 30, 255),
+        ),
+        label: const Text(
+          '登録',
+          style: TextStyle(
+            fontSize: 17,
+            color: Color.fromARGB(255, 0, 30, 255),
+          ),
+        ),
+        style: TextButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 167, 215, 254),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      ),
     ]),
     Column(children: [
       Container(
@@ -114,37 +136,64 @@ class _DropdownButtonMenuState extends State<DropdownButtonMenu> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
-      items: const[
+      items: [
         DropdownMenuItem(
           value: '食費',
-          child: Text(
-            '食費',
-            style: TextStyle(
-              fontSize: 20,
+          child: Row(children: [
+            Container(
+              width: 25,
+              height: 25,
+              color: Colors.red,
             ),
-          ),
+            const Padding(padding: EdgeInsets.only(left: 20)),
+            const Text(
+              '食費',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ]),
         ),
         DropdownMenuItem(
           value: '遊び',
-          child: Text(
-            '遊び',
-            style: TextStyle(
-              fontSize: 20,
-            ),
+          child: Row(
+            children: [
+              Container(
+                width: 25,
+                height: 25,
+                color: const Color(0xFFFFAE35),
+              ),
+              const Padding(padding: EdgeInsets.only(left: 20)),
+              const Text(
+                '遊び',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
           ),
         ),
         DropdownMenuItem(
           value: '生活費',
-          child: Text(
-            '生活費',
-            style: TextStyle(
-              fontSize: 20,
+          child: Row(children: [
+            Container(
+              width: 25,
+              height: 25,
+              color: const Color(0xFFFDD609),
             ),
-          ),
+            const Padding(padding: EdgeInsets.only(left: 20)),
+            const Text(
+              '生活費',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ]),
         ),
       ],
       value: isSelectedValue,
       onChanged: (String? value) {
+        _MyHomePageState().pullDownText = isSelectedValue;
         setState(() {
           isSelectedValue = value!;
         });
