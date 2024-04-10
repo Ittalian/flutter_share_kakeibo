@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dropdown_button_menu.dart';
 
@@ -11,6 +12,7 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   int price = 0;
   String category = "食費";
+  List<QueryDocumentSnapshot> list = [];
 
   void setCategory(String value) {
     setState(() {
@@ -44,6 +46,15 @@ class _RegistrationState extends State<Registration> {
         ),
       ),
       const Padding(padding: EdgeInsets.only(top: 50)),
+      // 取得したデータの表示
+      // Column(
+      //   children: list.map((document) {
+      //     return ListTile(
+      //       title: Text('price: ${document['price']}'),
+      //     );
+      //   }).toList(),
+      // ),
+      const Padding(padding: EdgeInsets.only(top: 50)),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         const Text(
           '項目',
@@ -59,9 +70,18 @@ class _RegistrationState extends State<Registration> {
       ]),
       const Padding(padding: EdgeInsets.only(top: 75)),
       ElevatedButton.icon(
-        onPressed: () {
-          print(price);
-          print(category);
+        onPressed: () async {
+          await FirebaseFirestore.instance.collection('budget').add(
+            {'price': price, 'category': category, 'when': DateTime.now()}
+          );
+          // データ取得処理
+          // final snapshot =
+          //     await FirebaseFirestore.instance.collection('budget').get();
+          // setState(() {
+          //   list = snapshot.docs;
+          // });
+          // print(price);
+          // print(category);
         },
         icon: const Icon(
           Icons.pan_tool_alt,
