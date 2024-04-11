@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'dropdown_button_menu.dart';
 
 class Registration extends StatefulWidget {
@@ -70,8 +72,8 @@ class _RegistrationState extends State<Registration> {
         ),
       ]),
       const Padding(padding: EdgeInsets.only(top: 30)),
-      Expanded(
-          child: Container(
+      Column(children: [
+          Container(
               margin: const EdgeInsets.fromLTRB(50, 30, 60, 0),
               child: Row(children: [
                 Flexible(
@@ -108,7 +110,7 @@ class _RegistrationState extends State<Registration> {
                     style: TextStyle(
                       fontSize: 20,
                     ))
-              ]))),
+              ]))]),
       const Padding(padding: EdgeInsets.only(top: 75)),
       ElevatedButton.icon(
         onPressed: () async {
