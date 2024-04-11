@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'budget_confirmation.dart';
 
 class Calendar extends HookWidget {
   const Calendar({super.key});
@@ -10,6 +11,9 @@ class Calendar extends HookWidget {
   Widget build(BuildContext context) {
     final focusedDayState = useState(DateTime.now());
     final selectedDayState = useState(DateTime.now());
+    num foodPrice = 0;
+    num playPrice = 0;
+    num lifePrice = 0;
 
     return Material(
         child: Column(children: [
@@ -48,12 +52,33 @@ class Calendar extends HookWidget {
                             .where('day', isEqualTo: selectedDayState.value.day)
                             .get()
                             .then((QuerySnapshot querySnapshot) {
-                          for (int index = 0; index < querySnapshot.docs.length; index++) {
-                            print(querySnapshot.docs[index]["price"]);
-                            print(querySnapshot.docs[index]["category"]);
+                          for (int index = 0;
+                              index < querySnapshot.docs.length;
+                              index++) {
+                            switch (querySnapshot.docs[index]["category"]) {
+                              case "食費":
+                                foodPrice += querySnapshot.docs[index]["price"];
+                                break;
+                              case "遊び":
+                                playPrice += querySnapshot.docs[index]["price"];
+                                break;
+                              case "生活費":
+                                lifePrice += querySnapshot.docs[index]["price"];
+                                break;
+                            }
                           }
+                          // print(foodPrice);
+                          // print(playPrice);
+                          // print(lifePrice);
                         });
                         // ここまで
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BudgetConfirmation(
+                                    foodPrice: foodPrice,
+                                    playPrice: playPrice,
+                                    lifePrice: lifePrice)));
 
                         // print(selectedDayState.value);
                         // final snapshot = await FirebaseFirestore.instance
@@ -64,11 +89,6 @@ class Calendar extends HookWidget {
                         // print(category);
                         // print(month);
                         // print(day);
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               const BudgetConfirmation()));
                       }),
                   TextButton(
                       child: const Text("キャンセル"),
