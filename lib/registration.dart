@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dropdown_button_menu.dart';
 
 class Registration extends StatefulWidget {
@@ -129,20 +127,10 @@ class _RegistrationState extends State<Registration> {
               );
             },
           );
-          print(month);
-          print(day);
           // データ追加処理
           await FirebaseFirestore.instance.collection('budget').add(
-            {'price': price, 'category': category, 'when': DateTime.utc(DateTime.now().year, month, day)}
+            {'price': price, 'category': category, 'year': DateTime.now().year, 'month': month, 'day': day}
           );
-          // データ取得処理
-          // final snapshot =
-          //     await FirebaseFirestore.instance.collection('budget').get();
-          // setState(() {
-          //   list = snapshot.docs;
-          // });
-          // print(price);
-          // print(category);
         },
         icon: const Icon(
           Icons.pan_tool_alt,

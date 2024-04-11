@@ -11,7 +11,8 @@ class Calendar extends HookWidget {
     final focusedDayState = useState(DateTime.now());
     final selectedDayState = useState(DateTime.now());
 
-    return Column(children: [
+    return Material(
+        child: Column(children: [
       Container(
         alignment: Alignment.topCenter,
         margin: const EdgeInsets.only(top: 50),
@@ -29,8 +30,57 @@ class Calendar extends HookWidget {
         onDaySelected: (selectedDay, focusedDay) {
           selectedDayState.value = selectedDay;
           focusedDayState.value = focusedDay;
+          showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: const Text("詳細を見ますか？"),
+                actions: <Widget>[
+                  TextButton(
+                      child: const Text("OK"),
+                      onPressed: () async {
+                        //  データ取得処理
+                        await FirebaseFirestore.instance
+                            .collection('budget')
+                            .where('year', isEqualTo: DateTime.now().year)
+                            .where('month',
+                                isEqualTo: selectedDayState.value.month)
+                            .where('day', isEqualTo: selectedDayState.value.day)
+                            .get()
+                            .then((QuerySnapshot querySnapshot) {
+                          for (int index = 0; index < querySnapshot.docs.length; index++) {
+                            print(querySnapshot.docs[index]["price"]);
+                            print(querySnapshot.docs[index]["category"]);
+                          }
+                        });
+                        // ここまで
+
+                        // print(selectedDayState.value);
+                        // final snapshot = await FirebaseFirestore.instance
+                        //     .collection('budget')
+                        //     .get();
+                        // listState.value = snapshot.docs;
+                        // print(price);
+                        // print(category);
+                        // print(month);
+                        // print(day);
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) =>
+                        //               const BudgetConfirmation()));
+                      }),
+                  TextButton(
+                      child: const Text("キャンセル"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+              );
+            },
+          );
         },
       ),
-    ]);
+    ]));
   }
 }

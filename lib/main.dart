@@ -62,8 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
           BottomNavigationBarItem(icon: Icon(Icons.add_chart), label: '収支登録'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: 'カレンダー'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'カレンダー'),
         ],
         currentIndex: _selectIndex,
         onTap: _onTapItem,
