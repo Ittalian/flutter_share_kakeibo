@@ -14,6 +14,9 @@ class Calendar extends HookWidget {
     num foodPrice = 0;
     num playPrice = 0;
     num lifePrice = 0;
+    num monthFoodPrice = 0;
+    num monthPlayPrice = 0;
+    num monthLifePrice = 0;
 
     return Material(
         child: Column(children: [
@@ -41,9 +44,35 @@ class Calendar extends HookWidget {
                 title: const Text("詳細を見ますか？"),
                 actions: <Widget>[
                   TextButton(
-                      child: const Text("OK"),
+                      child: const Text("見る"),
                       onPressed: () async {
                         //  データ取得処理
+                        await FirebaseFirestore.instance
+                            .collection('budget')
+                            .where('year', isEqualTo: DateTime.now().year)
+                            .where('month',
+                                isEqualTo: selectedDayState.value.month)
+                            .get()
+                            .then((QuerySnapshot querySnapshot) {
+                          for (int index = 0;
+                            index < querySnapshot.docs.length;
+                            index++) {
+                            switch (querySnapshot.docs[index]["category"]) {
+                              case "食費":
+                                monthFoodPrice +=
+                                    querySnapshot.docs[index]["price"];
+                                break;
+                              case "遊び":
+                                monthPlayPrice +=
+                                    querySnapshot.docs[index]["price"];
+                                break;
+                              case "生活費":
+                                monthLifePrice +=
+                                    querySnapshot.docs[index]["price"];
+                                break;
+                            }
+                          }
+                        });
                         await FirebaseFirestore.instance
                             .collection('budget')
                             .where('year', isEqualTo: DateTime.now().year)
@@ -53,23 +82,26 @@ class Calendar extends HookWidget {
                             .get()
                             .then((QuerySnapshot querySnapshot) {
                           for (int index = 0;
-                              index < querySnapshot.docs.length;
-                              index++) {
+                            index < querySnapshot.docs.length;
+                            index++) {
                             switch (querySnapshot.docs[index]["category"]) {
                               case "食費":
-                                foodPrice += querySnapshot.docs[index]["price"];
+                                foodPrice +=
+                                    querySnapshot.docs[index]["price"];
                                 break;
                               case "遊び":
-                                playPrice += querySnapshot.docs[index]["price"];
+                                playPrice +=
+                                    querySnapshot.docs[index]["price"];
                                 break;
                               case "生活費":
-                                lifePrice += querySnapshot.docs[index]["price"];
+                                lifePrice +=
+                                    querySnapshot.docs[index]["price"];
                                 break;
                             }
                           }
-                          // print(foodPrice);
-                          // print(playPrice);
-                          // print(lifePrice);
+                          if (foodPrice == Null) foodPrice = 0;
+                          if (playPrice == Null) playPrice = 0;
+                          if (lifePrice == Null) lifePrice = 0;
                         });
                         // ここまで
                         Navigator.push(
@@ -78,20 +110,15 @@ class Calendar extends HookWidget {
                                 builder: (context) => BudgetConfirmation(
                                     foodPrice: foodPrice,
                                     playPrice: playPrice,
-                                    lifePrice: lifePrice)));
-
-                        // print(selectedDayState.value);
-                        // final snapshot = await FirebaseFirestore.instance
-                        //     .collection('budget')
-                        //     .get();
-                        // listState.value = snapshot.docs;
-                        // print(price);
-                        // print(category);
-                        // print(month);
-                        // print(day);
+                                    lifePrice: lifePrice,
+                                    monthFoodPrice: monthFoodPrice,
+                                    monthPlayPrice: monthPlayPrice,
+                                    monthLifePrice: monthLifePrice,
+                                    month: selectedDayState.value.month,
+                                    day: selectedDayState.value.day)));
                       }),
                   TextButton(
-                      child: const Text("キャンセル"),
+                      child: const Text("やっぱやめる"),
                       onPressed: () {
                         Navigator.pop(context);
                       }),

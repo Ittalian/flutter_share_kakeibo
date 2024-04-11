@@ -3,9 +3,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'home.dart';
 import 'registration.dart';
 import 'calendar.dart';
+import 'buttom_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,16 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: _pages[_selectIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_chart), label: '収支登録'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'カレンダー'),
-        ],
-        currentIndex: _selectIndex,
-        onTap: _onTapItem,
-        type: BottomNavigationBarType.fixed,
-      ),
+      bottomNavigationBar: ButtomNavigationBar(
+        onTapItem: _onTapItem, selectIndex: _selectIndex
+      )
     );
   }
 }

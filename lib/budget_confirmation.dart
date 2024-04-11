@@ -1,21 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:share_kakeibo/calendar.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'pie_chart_draw.dart';
+import 'package:share_kakeibo/main.dart';
 
 class BudgetConfirmation extends StatefulWidget {
+  // final String category;
   final num foodPrice;
   final num playPrice;
   final num lifePrice;
-  // final String category;
-  // final int month;
-  // final int day;
+  final num monthFoodPrice;
+  final num monthPlayPrice;
+  final num monthLifePrice;
+  final int month;
+  final int day;
   const BudgetConfirmation(
       {required this.foodPrice,
       required this.playPrice,
       required this.lifePrice,
-      // required this.month,
-      // required this.day,
+      required this.monthFoodPrice,
+      required this.monthPlayPrice,
+      required this.monthLifePrice,
+      required this.month,
+      required this.day,
       super.key});
   @override
   State<BudgetConfirmation> createState() => _BudgetConfirmationState();
@@ -25,6 +30,11 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
   late num foodPriceState;
   late num playPriceState;
   late num lifePriceState;
+  late num monthFoodPriceState;
+  late num monthPlayPriceState;
+  late num monthLifePriceState;
+  late num monthState;
+  late num dayState;
 
   @override
   void initState() {
@@ -33,69 +43,64 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
     foodPriceState = widget.foodPrice;
     playPriceState = widget.playPrice;
     lifePriceState = widget.lifePrice;
+    monthFoodPriceState = widget.monthFoodPrice;
+    monthPlayPriceState = widget.monthPlayPrice;
+    monthLifePriceState = widget.monthLifePrice;
+    monthState = widget.month;
+    dayState = widget.day;
   }
 
   @override
   Widget build(BuildContext context) {
-    num totalPrice = foodPriceState + playPriceState + lifePriceState;
     // 円グラフ作成
     double radius = 50;
     return Scaffold(
-      body: 
-      Column(children: [
+        body: SingleChildScrollView(
+            child: Column(children: [
           Container(
             alignment: Alignment.topCenter,
             margin: const EdgeInsets.only(top: 50),
             child: Image.asset('images/confirmation.jpg'),
           ),
-          SizedBox(
-            height: 300,
-            child: PieChart(
-              PieChartData(
-                startDegreeOffset: 270,
-                sectionsSpace: 0,
-                centerSpaceRadius: 40,
-                sections: [
-                  PieChartSectionData(
-                    color: Colors.red,
-                    value: foodPriceState / totalPrice * 100,
-                    title: '食費',
-                    radius: radius,
-                    titleStyle: const TextStyle(
-                      fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  PieChartSectionData(
-                    color: const Color(0xFFFFAE35),
-                    value: playPriceState / totalPrice * 100,
-                    title: '遊び',
-                    radius: radius,
-                    titleStyle: const TextStyle(
-                        fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  PieChartSectionData(
-                    color: const Color(0xFFFDD609),
-                    value: lifePriceState / totalPrice * 100,
-                    title: '生活費',
-                    radius: radius,
-                    titleStyle: const TextStyle(
-                        fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
-                  )
-                ],
-              ),
-            )
+          const Padding(padding: EdgeInsets.only(top: 30)),
+          Text(
+            "${monthState.toString()}月${dayState.toString()}日の収支",
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          PieChartDraw(
+              foodPrice: foodPriceState,
+              lifePrice: lifePriceState,
+              playPrice: playPriceState,
+              radius: radius),
+          const Padding(padding: EdgeInsets.only(top: 30)),
+          Text(
+            "${monthState.toString()}月全体の収支",
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          PieChartDraw(
+              foodPrice: monthFoodPriceState,
+              lifePrice: monthPlayPriceState,
+              playPrice: monthLifePriceState,
+              radius: radius
           )
-      ]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20),
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Calendar()));
-          },
-          child: const Icon(Icons.keyboard_backspace),
-        )
-      )
-    );
+        ])),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+        floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage()));
+              },
+              child: const Icon(Icons.home),
+            )));
   }
 }
