@@ -1,20 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Calendar extends StatefulWidget {
+class Calendar extends HookWidget {
   const Calendar({super.key});
 
   @override
-  State<Calendar> createState() => _CalendarState();
-}
-
-class _CalendarState extends State<Calendar> {
-  @override
   Widget build(BuildContext context) {
-    DateTime focusedDay = DateTime.now();
-    DateTime? selectedDay;
+    final focusedDayState = useState(DateTime.now());
+    final selectedDayState = useState(DateTime.now());
 
     return Column(children: [
       Container(
@@ -23,23 +18,17 @@ class _CalendarState extends State<Calendar> {
         child: Image.asset('images/calendar.jpg'),
       ),
       TableCalendar(
-        focusedDay: focusedDay,
-        firstDay: DateTime.utc(focusedDay.month),
-        lastDay: DateTime.utc(focusedDay.year + 100, 12, 31),
+        firstDay: DateTime.utc(DateTime.now().year, 1, 1),
+        lastDay: DateTime.utc(DateTime.now().year + 100, 12, 31),
+        focusedDay: DateTime.now(),
         locale: 'ja_JP',
-        headerStyle: const HeaderStyle(
-          formatButtonVisible: false,
-        ),
+        headerStyle: const HeaderStyle(formatButtonVisible: false),
         selectedDayPredicate: (day) {
-          return isSameDay(selectedDay, day);
+          return isSameDay(selectedDayState.value, day);
         },
         onDaySelected: (selectedDay, focusedDay) {
-          if (!isSameDay(selectedDay, focusedDay)) {
-            setState(() {
-              selectedDay = selectedDay;
-              focusedDay = focusedDay;
-            });
-          }
+          selectedDayState.value = selectedDay;
+          focusedDayState.value = focusedDay;
         },
       ),
     ]);
