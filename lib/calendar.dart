@@ -3,9 +3,28 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'budget_confirmation.dart';
+import 'price_list.dart';
 
 class Calendar extends HookWidget {
   const Calendar({super.key});
+
+  PriceList setData(num foodPrice, num playPrice, num lifePrice,
+      QuerySnapshot querySnapshot) {
+    for (int index = 0; index < querySnapshot.docs.length; index++) {
+      switch (querySnapshot.docs[index]["category"]) {
+        case "食費":
+          foodPrice += querySnapshot.docs[index]["price"];
+          break;
+        case "遊び":
+          playPrice += querySnapshot.docs[index]["price"];
+          break;
+        case "生活費":
+          lifePrice += querySnapshot.docs[index]["price"];
+          break;
+      }
+    }
+    return PriceList(foodPrice, playPrice, lifePrice);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +36,9 @@ class Calendar extends HookWidget {
     num monthFoodPrice = 0;
     num monthPlayPrice = 0;
     num monthLifePrice = 0;
+    num lastMonthFoodPrice = 0;
+    num lastMonthPlayPrice = 0;
+    num lastMonthLifePrice = 0;
 
     return Material(
         child: Column(children: [
@@ -54,24 +76,11 @@ class Calendar extends HookWidget {
                                 isEqualTo: selectedDayState.value.month)
                             .get()
                             .then((QuerySnapshot querySnapshot) {
-                          for (int index = 0;
-                            index < querySnapshot.docs.length;
-                            index++) {
-                            switch (querySnapshot.docs[index]["category"]) {
-                              case "食費":
-                                monthFoodPrice +=
-                                    querySnapshot.docs[index]["price"];
-                                break;
-                              case "遊び":
-                                monthPlayPrice +=
-                                    querySnapshot.docs[index]["price"];
-                                break;
-                              case "生活費":
-                                monthLifePrice +=
-                                    querySnapshot.docs[index]["price"];
-                                break;
-                            }
-                          }
+                          PriceList monthPriceList = setData(monthFoodPrice,
+                              monthPlayPrice, monthLifePrice, querySnapshot);
+                          monthFoodPrice = monthPriceList.foodPrice;
+                          monthPlayPrice = monthPriceList.playPrice;
+                          monthLifePrice = monthPriceList.lifePrice;
                         });
                         await FirebaseFirestore.instance
                             .collection('budget')
@@ -81,27 +90,27 @@ class Calendar extends HookWidget {
                             .where('day', isEqualTo: selectedDayState.value.day)
                             .get()
                             .then((QuerySnapshot querySnapshot) {
-                          for (int index = 0;
-                            index < querySnapshot.docs.length;
-                            index++) {
-                            switch (querySnapshot.docs[index]["category"]) {
-                              case "食費":
-                                foodPrice +=
-                                    querySnapshot.docs[index]["price"];
-                                break;
-                              case "遊び":
-                                playPrice +=
-                                    querySnapshot.docs[index]["price"];
-                                break;
-                              case "生活費":
-                                lifePrice +=
-                                    querySnapshot.docs[index]["price"];
-                                break;
-                            }
-                          }
-                          if (foodPrice == Null) foodPrice = 0;
-                          if (playPrice == Null) playPrice = 0;
-                          if (lifePrice == Null) lifePrice = 0;
+                          PriceList priceList = setData(
+                              foodPrice, playPrice, lifePrice, querySnapshot);
+                          foodPrice = priceList.foodPrice;
+                          playPrice = priceList.playPrice;
+                          lifePrice = priceList.lifePrice;
+                        });
+                        await FirebaseFirestore.instance
+                            .collection('budget')
+                            .where('year', isEqualTo: DateTime.now().year)
+                            .where('month',
+                                isEqualTo: selectedDayState.value.month - 1)
+                            .get()
+                            .then((QuerySnapshot querySnapshot) {
+                          PriceList lastMonthPriceList = setData(
+                              lastMonthFoodPrice,
+                              lastMonthPlayPrice,
+                              lastMonthLifePrice,
+                              querySnapshot);
+                          lastMonthFoodPrice = lastMonthPriceList.foodPrice;
+                          lastMonthPlayPrice = lastMonthPriceList.playPrice;
+                          lastMonthLifePrice = lastMonthPriceList.lifePrice;
                         });
                         // ここまで
                         Navigator.push(
@@ -114,6 +123,9 @@ class Calendar extends HookWidget {
                                     monthFoodPrice: monthFoodPrice,
                                     monthPlayPrice: monthPlayPrice,
                                     monthLifePrice: monthLifePrice,
+                                    lastMonthFoodPrice: lastMonthFoodPrice,
+                                    lastMonthPlayPrice: lastMonthPlayPrice,
+                                    lastMonthLifePrice: lastMonthLifePrice,
                                     month: selectedDayState.value.month,
                                     day: selectedDayState.value.day)));
                       }),
