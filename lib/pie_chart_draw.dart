@@ -17,9 +17,25 @@ class PieChartDraw extends StatelessWidget {
   Widget build(BuildContext context) {
     num totalPrice = foodPrice + lifePrice + playPrice;
 
-    // 0で割ることを防ぐ
-    if (totalPrice == 0) totalPrice = 1;
-    
+    // 収支がない場合の処理
+    if (totalPrice == 0) {
+      // 0で割ることを防ぐ
+      totalPrice = 1;
+      return const Column(
+        children: [
+          Padding(padding: EdgeInsets.only(top: 30)),
+          Text(
+            "収支はありません",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(bottom: 50)),
+        ]
+      );
+    }
+
     return SizedBox(
         height: 250,
         child: PieChart(PieChartData(
