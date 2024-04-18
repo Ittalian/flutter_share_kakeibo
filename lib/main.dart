@@ -41,11 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
   var _selectIndex = 0;
   String price = "";
 
-  void setPrice(String value) {
-    price = value;
-  }
-
-  final _pages = <Widget>[const Home(), const Registration(), const Calendar()];
+  final _pages = <Widget>[
+    const Home(),
+    const Registration(),
+    const Calendar(),
+  ];
 
   void _onTapItem(int index) {
     setState(() {
@@ -55,12 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: _pages[_selectIndex],
-      bottomNavigationBar: ButtomNavigationBar(
-        onTapItem: _onTapItem, selectIndex: _selectIndex
-      )
-    );
+        resizeToAvoidBottomInset: false,
+        body: _pages[_selectIndex],
+        bottomNavigationBar: ButtomNavigationBar(
+            onTapItem: _onTapItem, selectIndex: _selectIndex));
   }
 }

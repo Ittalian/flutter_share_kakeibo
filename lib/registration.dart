@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dropdown_button_menu.dart';
+import 'user_dropdown_button_menu.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -14,6 +13,7 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   int price = 0;
   String category = "食費";
+  String user = "いちくん";
   String insertMessage = "";
   int month = 0;
   int day = 0;
@@ -24,12 +24,18 @@ class _RegistrationState extends State<Registration> {
     });
   }
 
+  void setUser(String value) {
+    setState(() {
+      user = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
         alignment: Alignment.topCenter,
-        margin: const EdgeInsets.only(top: 50),
+        margin: const EdgeInsets.only(top: 20),
         child: Image.asset('images/registration.jpg'),
       ),
       Container(
@@ -49,14 +55,6 @@ class _RegistrationState extends State<Registration> {
           keyboardType: TextInputType.number,
         ),
       ),
-      // 取得したデータの表示
-      // Column(
-      //   children: list.map((document) {
-      //     return ListTile(
-      //       title: Text('price: ${document['price']}'),
-      //     );
-      //   }).toList(),
-      // ),
       const Padding(padding: EdgeInsets.only(top: 50)),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         const Text(
@@ -71,47 +69,62 @@ class _RegistrationState extends State<Registration> {
           notifyParent: setCategory,
         ),
       ]),
-      const Padding(padding: EdgeInsets.only(top: 30)),
+      const Padding(padding: EdgeInsets.only(top: 20)),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text(
+          'ユーザー',
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        const SizedBox(width: 50),
+        UserDropdownButtonMenu(
+          currentUser: user,
+          notifyParent: setUser,
+        )
+      ]),
+      const Padding(padding: EdgeInsets.only(top: 20)),
       Column(children: [
-          Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 60, 0),
-              child: Row(children: [
-                Flexible(
-                    child: TextField(
-                  maxLines: 1,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.nightlight),
-                    hintText: '7',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      month = int.parse(value);
-                    });
-                  },
-                  keyboardType: TextInputType.number,
-                )),
-                const Text("月", style: TextStyle(fontSize: 20)),
-                const Padding(padding: EdgeInsets.only(left: 50)),
-                Flexible(
-                    child: TextField(
-                  maxLines: 1,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.wb_sunny),
-                    hintText: '1',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      day = int.parse(value);
-                    });
-                  },
-                  keyboardType: TextInputType.number,
-                )),
-                const Text("日",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ))
-              ]))]),
-      const Padding(padding: EdgeInsets.only(top: 75)),
+        Container(
+            margin: const EdgeInsets.fromLTRB(50, 30, 60, 0),
+            child: Row(children: [
+              Flexible(
+                  child: TextField(
+                maxLines: 1,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.nightlight),
+                  hintText: '7',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    month = int.parse(value);
+                  });
+                },
+                keyboardType: TextInputType.number,
+              )),
+              const Text("月", style: TextStyle(fontSize: 20)),
+              const Padding(padding: EdgeInsets.only(left: 50)),
+              Flexible(
+                  child: TextField(
+                maxLines: 1,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.wb_sunny),
+                  hintText: '1',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    day = int.parse(value);
+                  });
+                },
+                keyboardType: TextInputType.number,
+              )),
+              const Text("日",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ))
+            ]))
+      ]),
+      const Padding(padding: EdgeInsets.only(top: 45)),
       ElevatedButton.icon(
         onPressed: () async {
           showDialog(
@@ -130,9 +143,14 @@ class _RegistrationState extends State<Registration> {
             },
           );
           // データ追加処理
-          await FirebaseFirestore.instance.collection('budget').add(
-            {'price': price, 'category': category, 'year': DateTime.now().year, 'month': month, 'day': day}
-          );
+          await FirebaseFirestore.instance.collection('budget').add({
+            'price': price,
+            'category': category,
+            'year': DateTime.now().year,
+            'month': month,
+            'day': day,
+            'user': user,
+          });
         },
         icon: const Icon(
           Icons.pan_tool_alt,

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class ButtomNavigationBar extends StatefulWidget {
   final Function(int index) onTapItem;
   final int selectIndex;
-  const ButtomNavigationBar({required this.onTapItem, required this.selectIndex, super.key});
+  const ButtomNavigationBar(
+      {required this.onTapItem, required this.selectIndex, super.key});
 
   @override
   State<ButtomNavigationBar> createState() => _ButtomNavigationBarState();
