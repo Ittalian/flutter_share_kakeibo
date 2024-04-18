@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'budget_confirmation.dart';
 import 'price_list.dart';
 import "package:intl/intl.dart";
+import 'loading_dialog.dart';
 
 class Calendar extends HookWidget {
   const Calendar({super.key});
@@ -112,6 +113,11 @@ class Calendar extends HookWidget {
                   TextButton(
                       child: const Text("見る"),
                       onPressed: () async {
+
+                        LoadingDialog.show(context);
+                        await Future.delayed(const Duration(seconds: 2));
+                        LoadingDialog.hide(context);
+
                         //  データ取得処理
                         await FirebaseFirestore.instance
                             .collection('budget')
@@ -194,8 +200,11 @@ class Calendar extends HookWidget {
                             .where('user', isEqualTo: "もえちゃん")
                             .get()
                             .then((QuerySnapshot querySnapshot) {
-                          PriceList moeMonthPriceList = setData(moeMonthFoodPrice,
-                              moeMonthPlayPrice, moeMonthLifePrice, querySnapshot);
+                          PriceList moeMonthPriceList = setData(
+                              moeMonthFoodPrice,
+                              moeMonthPlayPrice,
+                              moeMonthLifePrice,
+                              querySnapshot);
                           moeMonthFoodPrice = moeMonthPriceList.foodPrice;
                           moeMonthPlayPrice = moeMonthPriceList.playPrice;
                           moeMonthLifePrice = moeMonthPriceList.lifePrice;
@@ -208,8 +217,11 @@ class Calendar extends HookWidget {
                             .where('user', isEqualTo: "いちくん")
                             .get()
                             .then((QuerySnapshot querySnapshot) {
-                          PriceList ichiMonthPriceList = setData(ichiMonthFoodPrice,
-                              ichiMonthFoodPrice, ichiMonthLifePrice, querySnapshot);
+                          PriceList ichiMonthPriceList = setData(
+                              ichiMonthFoodPrice,
+                              ichiMonthFoodPrice,
+                              ichiMonthLifePrice,
+                              querySnapshot);
                           ichiMonthFoodPrice = ichiMonthPriceList.foodPrice;
                           ichiMonthPlayPrice = ichiMonthPriceList.playPrice;
                           ichiMonthLifePrice = ichiMonthPriceList.lifePrice;
