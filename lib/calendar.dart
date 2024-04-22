@@ -1,11 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'budget_confirmation.dart';
 import 'price_list.dart';
-import "package:intl/intl.dart";
+import 'package:intl/intl.dart';
 import 'loading_dialog.dart';
+import 'dart:collection';
 
 class Calendar extends HookWidget {
   const Calendar({super.key});
@@ -41,50 +44,56 @@ class Calendar extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final focusedDayState = useState(DateTime.now());
     final selectedDayState = useState(DateTime.now());
-    num foodPrice = 0;
-    num playPrice = 0;
-    num lifePrice = 0;
     num monthFoodPrice = 0;
     num monthPlayPrice = 0;
     num monthLifePrice = 0;
     num lastMonthFoodPrice = 0;
     num lastMonthPlayPrice = 0;
     num lastMonthLifePrice = 0;
-    num ichiFoodPrice = 0;
-    num ichiPlayPrice = 0;
-    num ichiLifePrice = 0;
     num ichiMonthFoodPrice = 0;
     num ichiMonthPlayPrice = 0;
     num ichiMonthLifePrice = 0;
-    num moeFoodPrice = 0;
-    num moePlayPrice = 0;
-    num moeLifePrice = 0;
     num moeMonthFoodPrice = 0;
     num moeMonthPlayPrice = 0;
     num moeMonthLifePrice = 0;
-    // final eventsList = useState<Map<DateTime, List>>({});
+    final oldEventsList = useState<Map<DateTime, List>>({});
+    final newEventsList = useState<Map<DateTime, List>>({});
+    final isAdded = useState(false);
 
-    // List getEventForDay(DateTime day) {
-    //   final snapshot = FirebaseFirestore.instance.collection("budget").get();
-    //   snapshot.then((QuerySnapshot querySnapshot) {
-    //     for (int i = 0; i < querySnapshot.docs.length; i++) {
-    //       final dataValue =
-    //           "${DateTime.now().year}年${querySnapshot.docs[i]['month']}月${querySnapshot.docs[i]['day']}日";
-    //       eventsList.value[getDatetime(dataValue)] = [
-    //         "event"
-    //       ];
-    //     }
-    //   });
-    //   final events = LinkedHashMap<DateTime, List>(
-    //     equals: isSameDay,
-    //     hashCode: getHashCode,
-    //   )..addAll(eventsList.value);
-    //   return events[day] ?? [];
-    // }
+    Map<DateTime, List> getEventsList(Map<DateTime, List> eventsList) {
+      final snapshot = FirebaseFirestore.instance.collection("budget").get();
+      snapshot.then((QuerySnapshot querySnapshot) {
+        for (int i = 0; i < querySnapshot.docs.length; i++) {
+          final dateValue = getDatetime(
+              "${DateTime.now().year}年${querySnapshot.docs[i]['month']}月${querySnapshot.docs[i]['day']}日");
+          if (eventsList[dateValue] == null) {
+            eventsList[dateValue] = [
+              "${querySnapshot.docs[i]['user']} ${querySnapshot.docs[i]['category']} ${querySnapshot.docs[i]['price']}円"
+            ];
+          } else if (isAdded.value == false) {
+            eventsList[dateValue]!.add(
+                "${querySnapshot.docs[i]['user']} ${querySnapshot.docs[i]['category']} ${querySnapshot.docs[i]['price']}円");
+          }
+        }
+        isAdded.value = true;
+        newEventsList.value = eventsList;
+      });
+      return newEventsList.value;
+    }
 
-    return Material(
+    final events = LinkedHashMap<DateTime, List>(
+      equals: isSameDay,
+      hashCode: getHashCode,
+    )..addAll(getEventsList(oldEventsList.value));
+
+    List getEventForDay(DateTime day) {
+      return events[day] ?? [];
+    }
+
+    return SingleChildScrollView(
         child: Column(children: [
       Container(
         alignment: Alignment.topCenter,
@@ -96,14 +105,12 @@ class Calendar extends HookWidget {
         lastDay: DateTime.utc(DateTime.now().year + 100, 12, 31),
         focusedDay: DateTime.now(),
         locale: 'ja_JP',
-        // eventLoader: getEventForDay,
+        eventLoader: getEventForDay,
         headerStyle: const HeaderStyle(formatButtonVisible: false),
         selectedDayPredicate: (day) {
           return isSameDay(selectedDayState.value, day);
         },
-        onDaySelected: (selectedDay, focusedDay) {
-          selectedDayState.value = selectedDay;
-          focusedDayState.value = focusedDay;
+        onDayLongPressed: (selectedDay, focusedDay) {
           showDialog(
             context: context,
             builder: (_) {
@@ -113,7 +120,6 @@ class Calendar extends HookWidget {
                   TextButton(
                       child: const Text("見る"),
                       onPressed: () async {
-
                         LoadingDialog.show(context);
                         await Future.delayed(const Duration(seconds: 2));
                         LoadingDialog.hide(context);
@@ -136,20 +142,6 @@ class Calendar extends HookWidget {
                             .collection('budget')
                             .where('year', isEqualTo: DateTime.now().year)
                             .where('month',
-                                isEqualTo: selectedDayState.value.month)
-                            .where('day', isEqualTo: selectedDayState.value.day)
-                            .get()
-                            .then((QuerySnapshot querySnapshot) {
-                          PriceList priceList = setData(
-                              foodPrice, playPrice, lifePrice, querySnapshot);
-                          foodPrice = priceList.foodPrice;
-                          playPrice = priceList.playPrice;
-                          lifePrice = priceList.lifePrice;
-                        });
-                        await FirebaseFirestore.instance
-                            .collection('budget')
-                            .where('year', isEqualTo: DateTime.now().year)
-                            .where('month',
                                 isEqualTo: selectedDayState.value.month - 1)
                             .get()
                             .then((QuerySnapshot querySnapshot) {
@@ -161,36 +153,6 @@ class Calendar extends HookWidget {
                           lastMonthFoodPrice = lastMonthPriceList.foodPrice;
                           lastMonthPlayPrice = lastMonthPriceList.playPrice;
                           lastMonthLifePrice = lastMonthPriceList.lifePrice;
-                        });
-                        await FirebaseFirestore.instance
-                            .collection('budget')
-                            .where('year', isEqualTo: DateTime.now().year)
-                            .where('month',
-                                isEqualTo: selectedDayState.value.month)
-                            .where('day', isEqualTo: selectedDayState.value.day)
-                            .where('user', isEqualTo: "もえちゃん")
-                            .get()
-                            .then((QuerySnapshot querySnapshot) {
-                          PriceList moePriceList = setData(moeFoodPrice,
-                              moePlayPrice, moeLifePrice, querySnapshot);
-                          moeFoodPrice = moePriceList.foodPrice;
-                          moePlayPrice = moePriceList.playPrice;
-                          moeLifePrice = moePriceList.lifePrice;
-                        });
-                        await FirebaseFirestore.instance
-                            .collection('budget')
-                            .where('year', isEqualTo: DateTime.now().year)
-                            .where('month',
-                                isEqualTo: selectedDayState.value.month)
-                            .where('day', isEqualTo: selectedDayState.value.day)
-                            .where('user', isEqualTo: "いちくん")
-                            .get()
-                            .then((QuerySnapshot querySnapshot) {
-                          PriceList ichiPriceList = setData(ichiFoodPrice,
-                              ichiPlayPrice, ichiLifePrice, querySnapshot);
-                          ichiFoodPrice = ichiPriceList.foodPrice;
-                          ichiPlayPrice = ichiPriceList.playPrice;
-                          ichiLifePrice = ichiPriceList.lifePrice;
                         });
                         await FirebaseFirestore.instance
                             .collection('budget')
@@ -231,24 +193,15 @@ class Calendar extends HookWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => BudgetConfirmation(
-                                    foodPrice: foodPrice,
-                                    playPrice: playPrice,
-                                    lifePrice: lifePrice,
                                     monthFoodPrice: monthFoodPrice,
                                     monthPlayPrice: monthPlayPrice,
                                     monthLifePrice: monthLifePrice,
                                     lastMonthFoodPrice: lastMonthFoodPrice,
                                     lastMonthPlayPrice: lastMonthPlayPrice,
                                     lastMonthLifePrice: lastMonthLifePrice,
-                                    ichiFoodPrice: ichiFoodPrice,
-                                    ichiPlayPrice: ichiPlayPrice,
-                                    ichiLifePrice: ichiLifePrice,
                                     ichiMonthFoodPrice: ichiMonthFoodPrice,
                                     ichiMonthPlayPrice: ichiMonthPlayPrice,
                                     ichiMonthLifePrice: ichiMonthLifePrice,
-                                    moeFoodPrice: moeFoodPrice,
-                                    moePlayPrice: moePlayPrice,
-                                    moeLifePrice: moeLifePrice,
                                     moeMonthFoodPrice: moeMonthFoodPrice,
                                     moeMonthPlayPrice: moeMonthPlayPrice,
                                     moeMonthLifePrice: moeMonthLifePrice,
@@ -265,7 +218,30 @@ class Calendar extends HookWidget {
             },
           );
         },
+        onDaySelected: (selectedDay, focusedDay) {
+          selectedDayState.value = selectedDay;
+          focusedDayState.value = focusedDay;
+        },
       ),
+      ListView(
+        shrinkWrap: true,
+        children:
+          getEventForDay(selectedDayState.value)
+            .map((event) => 
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 0, 25, 0),
+                child: Row(
+                children: [
+                  Expanded(child: SizedBox(
+                    child: ListTile(
+                    title: Text(event.toString()),
+                    )
+                  )),
+                  ElevatedButton(onPressed: () {}, child: const Text("削除"))
+                ]
+              ))
+          ).toList()
+      )
     ]));
   }
 }

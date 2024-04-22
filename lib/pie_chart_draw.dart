@@ -27,8 +27,7 @@ class PieChartDraw extends StatelessWidget {
           Text(
             "収支はありません",
             style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
           Padding(padding: EdgeInsets.only(bottom: 50)),
