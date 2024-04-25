@@ -131,26 +131,42 @@ class _RegistrationState extends State<Registration> {
             context: context,
             builder: (_) {
               return AlertDialog(
-                title: const Text("登録しました"),
+                title: const Text("登録しますか？"),
                 actions: <Widget>[
                   TextButton(
-                      child: const Text("OK"),
+                      onPressed: () async {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('登録しました'),
+                            action: SnackBarAction(
+                              label: 'OK',
+                              onPressed: () {},
+                            ),
+                          )
+                        );
+                        Navigator.pop(context);
+                        // データ追加処理
+                        await FirebaseFirestore.instance
+                            .collection('budget')
+                            .add({
+                          'price': price,
+                          'category': category,
+                          'year': DateTime.now().year,
+                          'month': month,
+                          'day': day,
+                          'user': user,
+                        });
+                      },
+                      child: const Text("する")),
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
-                      }),
+                      },
+                      child: const Text("やっぱやめる"))
                 ],
               );
             },
           );
-          // データ追加処理
-          await FirebaseFirestore.instance.collection('budget').add({
-            'price': price,
-            'category': category,
-            'year': DateTime.now().year,
-            'month': month,
-            'day': day,
-            'user': user,
-          });
         },
         icon: const Icon(
           Icons.pan_tool_alt,
