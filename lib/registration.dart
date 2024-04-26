@@ -14,7 +14,6 @@ class _RegistrationState extends State<Registration> {
   int price = 0;
   String category = "食費";
   String user = "いちくん";
-  String insertMessage = "";
   int month = 0;
   int day = 0;
   final formKey = GlobalKey<FormState>();
@@ -37,6 +36,7 @@ class _RegistrationState extends State<Registration> {
         key: formKey,
         child: Column(children: [
           Container(
+            margin: const EdgeInsets.only(top: 50),
             alignment: Alignment.topCenter,
             child: Image.asset('images/registration.jpg'),
           ),
@@ -45,9 +45,9 @@ class _RegistrationState extends State<Registration> {
               child: TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'このフィールドを入力してください';
+                    return '入力してね';
                   } else if (RegExp(r'[^0-9]').hasMatch(value)) {
-                    return '値は0以上の整数を入力してください';
+                    return '0以上の整数だよ';
                   }
                   return null;
                 },
@@ -64,7 +64,7 @@ class _RegistrationState extends State<Registration> {
                 },
                 keyboardType: TextInputType.number,
               )),
-          const Padding(padding: EdgeInsets.only(top: 30)),
+          const Padding(padding: EdgeInsets.only(top: 40)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Text(
               '項目',
@@ -92,19 +92,19 @@ class _RegistrationState extends State<Registration> {
               notifyParent: setUser,
             )
           ]),
-          const Padding(padding: EdgeInsets.only(top: 20)),
+          const Padding(padding: EdgeInsets.only(top: 30)),
           Container(
-              margin: const EdgeInsets.fromLTRB(75, 0, 75, 0),
+              margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Row(children: [
                 Flexible(
                     child: TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'このフィールドを入力してください';
+                      return '入力してね';
                     } else if (RegExp(r'[^0-9]').hasMatch(value) ||
                         int.parse(value) < 1 ||
                         int.parse(value) > 12) {
-                      return '1～12の整数を入力してください';
+                      return '1～12だよ';
                     }
                     return null;
                   },
@@ -122,12 +122,9 @@ class _RegistrationState extends State<Registration> {
                   },
                   keyboardType: TextInputType.number,
                 )),
-                const Text("月", style: TextStyle(fontSize: 20))
-              ])),
+          const Text("月", style: TextStyle(fontSize: 20)),
           const Padding(padding: EdgeInsets.only(left: 50)),
-          Container(
-              margin: const EdgeInsets.fromLTRB(75, 0, 75, 0),
-              child: Row(children: [
+              // child: Row(children: [
                 Flexible(
                     child: TextFormField(
                   validator: (value) {
@@ -135,9 +132,9 @@ class _RegistrationState extends State<Registration> {
                             .add(const Duration(days: -1))
                             .day;
                     if (value == null || value.isEmpty) {
-                      return 'このフィールドを入力してください';
-                    } else if (validDay < int.parse(value)) {
-                      return '1～${validDay}の整数を入力してください';
+                      return '入力してね';
+                    } else if (int.parse(value) < 1 || validDay < int.parse(value)) {
+                      return '1～${validDay}だよ';
                     }
                     return null;
                   },
@@ -159,7 +156,7 @@ class _RegistrationState extends State<Registration> {
                     style: TextStyle(
                       fontSize: 20,
                     ))
-              ])),
+          ])),
           const Padding(padding: EdgeInsets.only(top: 45)),
           ElevatedButton.icon(
             onPressed: () async {
@@ -223,8 +220,6 @@ class _RegistrationState extends State<Registration> {
               ),
             ),
           ),
-          const Padding(padding: EdgeInsets.only(top: 30)),
-          Text(insertMessage)
         ]));
   }
 }
