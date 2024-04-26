@@ -223,72 +223,74 @@ class Calendar extends HookWidget {
         },
       ),
       ListView(
-          shrinkWrap: true,
-          children: getEventForDay(selectedDayState.value)
-              .map((event) => Container(
-                  margin: const EdgeInsets.fromLTRB(20, 0, 40, 0),
-                  child: Row(children: [
-                    Expanded(
-                        child: SizedBox(
-                            width: screenWidth * 0.8,
-                            child: ListTile(
-                              title: Text(event.toString()),
-                            ))),
-                    ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) {
-                              return AlertDialog(
-                                title: const Text("削除しますか？"),
-                                actions: <Widget>[
-                                  TextButton(
-                                      child: const Text("する"),
-                                      onPressed: () async {
-                                        List<String> deleteData =
-                                            event.split(" ");
-                                        num deletePrice = num.parse(deleteData[deleteData.length - 1].replaceAll("円", ""));
-                                        final query = await FirebaseFirestore
-                                            .instance
-                                            .collection("budget")
-                                            .where('year', isEqualTo: selectedDayState.value.year)
-                                            .where('month', isEqualTo: selectedDayState.value.month)
-                                            .where('day', isEqualTo: selectedDayState.value.day)
-                                            .where('user', isEqualTo: deleteData[0])
-                                            .where('category', isEqualTo: deleteData[1])
-                                            .where('price', isEqualTo: deletePrice)
-                                            .get();
-                                        query.docs.forEach((doc) {
-                                          doc.reference.delete();
-                                        });
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const MyHomePage()));
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: const Text('削除しました'),
-                                            action: SnackBarAction(
-                                              label: 'OK',
-                                              onPressed: () {},
-                                            ),
-                                          )
-                                        );
-                                      }),
-                                  TextButton(
-                                      child: const Text("やっぱやめる"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: const Text("削除"))
-                  ])))
-              .toList())
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        children: getEventForDay(selectedDayState.value)
+            .map((event) => Container(
+                margin: const EdgeInsets.fromLTRB(20, 0, 40, 5),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                        width: screenWidth * 0.8,
+                        child: ListTile(
+                          title: Text(event.toString()),
+                        ))),
+                  ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return AlertDialog(
+                              title: const Text("削除しますか？"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("する"),
+                                  onPressed: () async {
+                                    List<String> deleteData =
+                                        event.split(" ");
+                                    num deletePrice = num.parse(deleteData[deleteData.length - 1].replaceAll("円", ""));
+                                    final query = await FirebaseFirestore
+                                        .instance
+                                        .collection("budget")
+                                        .where('year', isEqualTo: selectedDayState.value.year)
+                                        .where('month', isEqualTo: selectedDayState.value.month)
+                                        .where('day', isEqualTo: selectedDayState.value.day)
+                                        .where('user', isEqualTo: deleteData[0])
+                                        .where('category', isEqualTo: deleteData[1])
+                                        .where('price', isEqualTo: deletePrice)
+                                        .get();
+                                    query.docs.forEach((doc) {
+                                      doc.reference.delete();
+                                    });
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyHomePage()));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text('削除しました'),
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {},
+                                        ),
+                                      )
+                                    );
+                                  }),
+                                TextButton(
+                                    child: const Text("やっぱやめる"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    }),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: const Text("削除"))
+                ])))
+            .toList()),
+      const Padding(padding: EdgeInsets.only(top: 20))
     ]));
   }
 }
