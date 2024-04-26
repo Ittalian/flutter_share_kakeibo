@@ -11,6 +11,9 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  final priceController = TextEditingController();
+  final monthController = TextEditingController();
+  final dayController = TextEditingController();
   int price = 0;
   String category = "食費";
   String user = "いちくん";
@@ -43,6 +46,7 @@ class _RegistrationState extends State<Registration> {
           Container(
               margin: const EdgeInsets.fromLTRB(50, 30, 60, 0),
               child: TextFormField(
+                controller: priceController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '入力してね';
@@ -98,6 +102,7 @@ class _RegistrationState extends State<Registration> {
               child: Row(children: [
                 Flexible(
                     child: TextFormField(
+                  controller: monthController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '入力してね';
@@ -122,18 +127,21 @@ class _RegistrationState extends State<Registration> {
                   },
                   keyboardType: TextInputType.number,
                 )),
-          const Text("月", style: TextStyle(fontSize: 20)),
-          const Padding(padding: EdgeInsets.only(left: 50)),
-              // child: Row(children: [
+                const Text("月", style: TextStyle(fontSize: 20)),
+                const Padding(padding: EdgeInsets.only(left: 50)),
+                // child: Row(children: [
                 Flexible(
                     child: TextFormField(
+                  controller: dayController,
                   validator: (value) {
                     int validDay = DateTime(DateTime.now().year, month + 1, 1)
-                            .add(const Duration(days: -1))
-                            .day;
+                        .add(const Duration(days: -1))
+                        .day;
                     if (value == null || value.isEmpty) {
                       return '入力してね';
-                    } else if (int.parse(value) < 1 || validDay < int.parse(value)) {
+                    } else if (RegExp(r'[^0-9]').hasMatch(value) ||
+                        int.parse(value) < 1 ||
+                        validDay < int.parse(value)) {
                       return '1～${validDay}だよ';
                     }
                     return null;
@@ -156,7 +164,7 @@ class _RegistrationState extends State<Registration> {
                     style: TextStyle(
                       fontSize: 20,
                     ))
-          ])),
+              ])),
           const Padding(padding: EdgeInsets.only(top: 45)),
           ElevatedButton.icon(
             onPressed: () async {
@@ -189,6 +197,9 @@ class _RegistrationState extends State<Registration> {
                                 'day': day,
                                 'user': user,
                               });
+                              priceController.clear();
+                              monthController.clear();
+                              dayController.clear();
                             },
                             child: const Text("する")),
                         TextButton(
