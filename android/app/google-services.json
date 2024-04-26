@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "583373953616",
+    "project_id": "flutter-share-kakeibo",
+    "storage_bucket": "flutter-share-kakeibo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583373953616:android:35153671a02bf597944f55",
+        "android_client_info": {
+          "package_name": "com.example.share_kakeibo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBql83oQyi4MPJyqPSL6jSESSE_DjVBl-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
