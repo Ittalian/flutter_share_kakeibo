@@ -226,7 +226,7 @@ class Calendar extends HookWidget {
           shrinkWrap: true,
           children: getEventForDay(selectedDayState.value)
               .map((event) => Container(
-                  margin: const EdgeInsets.fromLTRB(45, 0, 50, 0),
+                  margin: const EdgeInsets.fromLTRB(20, 0, 40, 0),
                   child: Row(children: [
                     Expanded(
                         child: SizedBox(
@@ -240,7 +240,7 @@ class Calendar extends HookWidget {
                             context: context,
                             builder: (_) {
                               return AlertDialog(
-                                title: const Text("収支を削除しますか？"),
+                                title: const Text("削除しますか？"),
                                 actions: <Widget>[
                                   TextButton(
                                       child: const Text("する"),
