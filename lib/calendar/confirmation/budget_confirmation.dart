@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'pie_chart_draw.dart';
-import 'bar_chart_draw.dart';
+import '../../fl_chart/pie_chart_draw.dart';
+import '../../fl_chart/bar_chart_draw.dart';
 import 'package:share_kakeibo/main.dart';
 
 class BudgetConfirmation extends StatefulWidget {

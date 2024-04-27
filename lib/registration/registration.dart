@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'dropdown_button_menu.dart';
-import 'user_dropdown_button_menu.dart';
+import 'dropdown_menu/dropdown_button_menu.dart';
+import 'dropdown_menu/user_dropdown_button_menu.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
