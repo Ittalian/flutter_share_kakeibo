@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'home.dart';
-import 'registration.dart';
-import 'calendar.dart';
+import 'home/home.dart';
+import 'registration/registration.dart';
+import 'calendar/calendar.dart';
 import 'buttom_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
