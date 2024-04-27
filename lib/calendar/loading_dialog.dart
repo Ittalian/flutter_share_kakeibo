@@ -6,19 +6,19 @@ class LoadingDialog extends StatefulWidget {
   @override
   State<LoadingDialog> createState() => _LoadingDialogState();
 
-  static void show(BuildContext context) {
+  static Future<void> show(BuildContext context) async {
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const PopScope(
-            canPop: false,
-            child: LoadingDialog(),
-          );
-        });
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const PopScope(
+          canPop: false,
+          child: LoadingDialog(),
+        );
+      });
   }
 
-  static void hide(BuildContext context) {
+  static Future<void> hide(BuildContext context) async {
     Navigator.of(context).pop();
   }
 }
@@ -31,7 +31,6 @@ class _LoadingDialogState extends State<LoadingDialog> {
         width: 150,
         height: 150,
         child: AlertDialog(
-          // backgroundColor: Colors.green, // MEMO: 背景色の指定
           alignment: Alignment.center,
           contentPadding: EdgeInsets.zero,
           insetPadding: EdgeInsets.zero,
@@ -41,7 +40,6 @@ class _LoadingDialogState extends State<LoadingDialog> {
     );
   }
 
-  // ダイアログ内に表示するWidget
   Widget _dialogContent() {
     return const Column(
       children: [
