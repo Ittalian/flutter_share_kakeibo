@@ -6,32 +6,80 @@ import 'package:share_kakeibo/main.dart';
 class BudgetConfirmation extends StatefulWidget {
   // final String category;
   final num monthFoodPrice;
-  final num monthPlayPrice;
-  final num monthLifePrice;
+  final num monthAssociatePrice;
+  final num monthDailyPrice;
+  final num monthHobbyPrice;
+  final num monthClothPrice;
+  final num monthTransPrice;
+  final num monthBeautyPrice;
+  final num monthSpecialPrice;
+  final num monthOtherPrice;
   final num lastMonthFoodPrice;
-  final num lastMonthPlayPrice;
-  final num lastMonthLifePrice;
+  final num lastMonthAssociatePrice;
+  final num lastMonthDailyPrice;
+  final num lastMonthHobbyPrice;
+  final num lastMonthClothPrice;
+  final num lastMonthTransPrice;
+  final num lastMonthBeautyPrice;
+  final num lastMonthSpecialPrice;
+  final num lastMonthOtherPrice;
   final num ichiMonthFoodPrice;
-  final num ichiMonthPlayPrice;
-  final num ichiMonthLifePrice;
+  final num ichiMonthAssociatePrice;
+  final num ichiMonthDailyPrice;
+  final num ichiMonthHobbyPrice;
+  final num ichiMonthClothPrice;
+  final num ichiMonthTransPrice;
+  final num ichiMonthBeautyPrice;
+  final num ichiMonthSpecialPrice;
+  final num ichiMonthOtherPrice;
   final num moeMonthFoodPrice;
-  final num moeMonthPlayPrice;
-  final num moeMonthLifePrice;
+  final num moeMonthAssociatePrice;
+  final num moeMonthDailyPrice;
+  final num moeMonthHobbyPrice;
+  final num moeMonthClothPrice;
+  final num moeMonthTransPrice;
+  final num moeMonthBeautyPrice;
+  final num moeMonthSpecialPrice;
+  final num moeMonthOtherPrice;
   final int month;
   final int day;
   const BudgetConfirmation(
       {required this.monthFoodPrice,
-      required this.monthPlayPrice,
-      required this.monthLifePrice,
+      required this.monthAssociatePrice,
+      required this.monthDailyPrice,
+      required this.monthHobbyPrice,
+      required this.monthClothPrice,
+      required this.monthTransPrice,
+      required this.monthBeautyPrice,
+      required this.monthSpecialPrice,
+      required this.monthOtherPrice,
       required this.lastMonthFoodPrice,
-      required this.lastMonthPlayPrice,
-      required this.lastMonthLifePrice,
+      required this.lastMonthAssociatePrice,
+      required this.lastMonthDailyPrice,
+      required this.lastMonthHobbyPrice,
+      required this.lastMonthClothPrice,
+      required this.lastMonthTransPrice,
+      required this.lastMonthBeautyPrice,
+      required this.lastMonthSpecialPrice,
+      required this.lastMonthOtherPrice,
       required this.ichiMonthFoodPrice,
-      required this.ichiMonthPlayPrice,
-      required this.ichiMonthLifePrice,
+      required this.ichiMonthAssociatePrice,
+      required this.ichiMonthDailyPrice,
+      required this.ichiMonthHobbyPrice,
+      required this.ichiMonthClothPrice,
+      required this.ichiMonthTransPrice,
+      required this.ichiMonthBeautyPrice,
+      required this.ichiMonthSpecialPrice,
+      required this.ichiMonthOtherPrice,
       required this.moeMonthFoodPrice,
-      required this.moeMonthPlayPrice,
-      required this.moeMonthLifePrice,
+      required this.moeMonthAssociatePrice,
+      required this.moeMonthDailyPrice,
+      required this.moeMonthHobbyPrice,
+      required this.moeMonthClothPrice,
+      required this.moeMonthTransPrice,
+      required this.moeMonthBeautyPrice,
+      required this.moeMonthSpecialPrice,
+      required this.moeMonthOtherPrice,
       required this.month,
       required this.day,
       super.key});
@@ -41,17 +89,41 @@ class BudgetConfirmation extends StatefulWidget {
 
 class _BudgetConfirmationState extends State<BudgetConfirmation> {
   late num monthFoodPriceState;
-  late num monthPlayPriceState;
-  late num monthLifePriceState;
+  late num monthAssociatePriceState;
+  late num monthDailyPriceState;
+  late num monthHobbyPriceState;
+  late num monthClothPriceState;
+  late num monthTransPriceState;
+  late num monthBeautyPriceState;
+  late num monthSpecialPriceState;
+  late num monthOtherPriceState;
   late num lastMonthFoodPriceState;
-  late num lastMonthPlayPriceState;
-  late num lastMonthLifePriceState;
+  late num lastMonthAssociatePriceState;
+  late num lastMonthDailyPriceState;
+  late num lastMonthHobbyPriceState;
+  late num lastMonthClothPriceState;
+  late num lastMonthTransPriceState;
+  late num lastMonthBeautyPriceState;
+  late num lastMonthSpecialPriceState;
+  late num lastMonthOtherPriceState;
   late num ichiMonthFoodPriceState;
-  late num ichiMonthPlayPriceState;
-  late num ichiMonthLifePriceState;
+  late num ichiMonthAssociatePriceState;
+  late num ichiMonthDailyPriceState;
+  late num ichiMonthHobbyPriceState;
+  late num ichiMonthClothPriceState;
+  late num ichiMonthTransPriceState;
+  late num ichiMonthBeautyPriceState;
+  late num ichiMonthSpecialPriceState;
+  late num ichiMonthOtherPriceState;
   late num moeMonthFoodPriceState;
-  late num moeMonthPlayPriceState;
-  late num moeMonthLifePriceState;
+  late num moeMonthAssociatePriceState;
+  late num moeMonthDailyPriceState;
+  late num moeMonthHobbyPriceState;
+  late num moeMonthClothPriceState;
+  late num moeMonthTransPriceState;
+  late num moeMonthBeautyPriceState;
+  late num moeMonthSpecialPriceState;
+  late num moeMonthOtherPriceState;
   late num monthState;
   late num dayState;
 
@@ -60,17 +132,41 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
     super.initState();
 
     monthFoodPriceState = widget.monthFoodPrice;
-    monthPlayPriceState = widget.monthPlayPrice;
-    monthLifePriceState = widget.monthLifePrice;
+    monthAssociatePriceState = widget.monthAssociatePrice;
+    monthDailyPriceState = widget.monthDailyPrice;
+    monthHobbyPriceState = widget.monthHobbyPrice;
+    monthClothPriceState = widget.monthClothPrice;
+    monthTransPriceState = widget.monthTransPrice;
+    monthBeautyPriceState = widget.monthBeautyPrice;
+    monthSpecialPriceState = widget.monthSpecialPrice;
+    monthOtherPriceState = widget.monthOtherPrice;
     lastMonthFoodPriceState = widget.lastMonthFoodPrice;
-    lastMonthPlayPriceState = widget.lastMonthPlayPrice;
-    lastMonthLifePriceState = widget.lastMonthLifePrice;
+    lastMonthAssociatePriceState = widget.lastMonthAssociatePrice;
+    lastMonthDailyPriceState = widget.lastMonthDailyPrice;
+    lastMonthHobbyPriceState = widget.lastMonthHobbyPrice;
+    lastMonthClothPriceState = widget.lastMonthClothPrice;
+    lastMonthTransPriceState = widget.lastMonthTransPrice;
+    lastMonthBeautyPriceState = widget.lastMonthBeautyPrice;
+    lastMonthSpecialPriceState = widget.lastMonthSpecialPrice;
+    lastMonthOtherPriceState = widget.lastMonthOtherPrice;
     ichiMonthFoodPriceState = widget.ichiMonthFoodPrice;
-    ichiMonthPlayPriceState = widget.ichiMonthPlayPrice;
-    ichiMonthLifePriceState = widget.ichiMonthLifePrice;
+    ichiMonthAssociatePriceState = widget.ichiMonthAssociatePrice;
+    ichiMonthDailyPriceState = widget.ichiMonthDailyPrice;
+    ichiMonthHobbyPriceState = widget.ichiMonthHobbyPrice;
+    ichiMonthClothPriceState = widget.ichiMonthClothPrice;
+    ichiMonthTransPriceState = widget.ichiMonthTransPrice;
+    ichiMonthBeautyPriceState = widget.ichiMonthBeautyPrice;
+    ichiMonthSpecialPriceState = widget.ichiMonthSpecialPrice;
+    ichiMonthOtherPriceState = widget.ichiMonthOtherPrice;
     moeMonthFoodPriceState = widget.moeMonthFoodPrice;
-    moeMonthPlayPriceState = widget.moeMonthPlayPrice;
-    moeMonthLifePriceState = widget.moeMonthLifePrice;
+    moeMonthAssociatePriceState = widget.moeMonthAssociatePrice;
+    moeMonthDailyPriceState = widget.moeMonthDailyPrice;
+    moeMonthHobbyPriceState = widget.moeMonthHobbyPrice;
+    moeMonthClothPriceState = widget.moeMonthClothPrice;
+    moeMonthTransPriceState = widget.moeMonthTransPrice;
+    moeMonthBeautyPriceState = widget.moeMonthBeautyPrice;
+    moeMonthSpecialPriceState = widget.moeMonthSpecialPrice;
+    moeMonthOtherPriceState = widget.moeMonthOtherPrice;
     monthState = widget.month;
     dayState = widget.day;
   }
@@ -82,7 +178,9 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
     double radius = 50;
     double personalRadius = 40;
     num totalPrice =
-        monthFoodPriceState + monthPlayPriceState + monthLifePriceState;
+        monthFoodPriceState + monthAssociatePriceState + monthDailyPriceState + 
+        monthHobbyPriceState + monthClothPriceState + monthTransPriceState + 
+        monthBeautyPriceState + monthSpecialPriceState + monthOtherPriceState;
     num limitPrice = 40000 - totalPrice;
     String fightText = "";
     if (limitPrice > 30000) {
@@ -149,8 +247,14 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
                     ),
                     PieChartDraw(
                         foodPrice: ichiMonthFoodPriceState,
-                        lifePrice: ichiMonthLifePriceState,
-                        playPrice: ichiMonthPlayPriceState,
+                        associatePrice: ichiMonthAssociatePriceState,
+                        dailyPrice: ichiMonthDailyPriceState,
+                        hobbyPrice: ichiMonthHobbyPriceState,
+                        clothPrice: ichiMonthClothPriceState,
+                        transPrice: ichiMonthTransPriceState,
+                        beautyPrice: ichiMonthBeautyPriceState,
+                        specialPrice: ichiMonthSpecialPriceState,
+                        otherPrice: ichiMonthOtherPriceState,
                         radius: personalRadius)
                   ])),
               SizedBox(
@@ -164,8 +268,14 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
                     ),
                     PieChartDraw(
                         foodPrice: moeMonthFoodPriceState,
-                        lifePrice: moeMonthLifePriceState,
-                        playPrice: moeMonthPlayPriceState,
+                        associatePrice: moeMonthAssociatePriceState,
+                        dailyPrice: moeMonthDailyPriceState,
+                        hobbyPrice: moeMonthHobbyPriceState,
+                        clothPrice: moeMonthClothPriceState,
+                        transPrice: moeMonthTransPriceState,
+                        beautyPrice: moeMonthBeautyPriceState,
+                        specialPrice: moeMonthSpecialPriceState,
+                        otherPrice: moeMonthOtherPriceState,
                         radius: personalRadius)
                   ])),
             ],
@@ -176,8 +286,14 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
           ),
           PieChartDraw(
               foodPrice: monthFoodPriceState,
-              lifePrice: monthLifePriceState,
-              playPrice: monthPlayPriceState,
+              associatePrice: monthAssociatePriceState,
+              dailyPrice: monthDailyPriceState,
+              hobbyPrice: monthHobbyPriceState,
+              clothPrice: monthClothPriceState,
+              transPrice: monthTransPriceState,
+              beautyPrice: monthBeautyPriceState,
+              specialPrice: monthSpecialPriceState,
+              otherPrice: monthOtherPriceState,
               radius: radius),
           const Padding(padding: EdgeInsets.only(top: 30)),
           Text("${monthState.toString()}月の前月比",
@@ -187,11 +303,11 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
               )),
           BarChartDraw(
             monthFoodPrice: monthFoodPriceState,
-            monthPlayPrice: monthPlayPriceState,
-            monthLifePrice: monthLifePriceState,
+            monthLifePrice: monthAssociatePriceState,
+            monthPlayPrice: monthClothPriceState,
             lastMonthFoodPrice: lastMonthFoodPriceState,
-            lastMonthPlayPrice: lastMonthPlayPriceState,
-            lastMonthLifePrice: lastMonthLifePriceState,
+            lastMonthPlayPrice: monthAssociatePriceState,
+            lastMonthLifePrice: monthClothPriceState,
           )
         ])),
         floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
