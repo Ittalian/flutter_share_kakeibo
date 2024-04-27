@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dropdown_menu_item/user_dropdown_item.dart';
 
 class UserDropdownButtonMenu extends StatefulWidget {
   final String currentUser;
@@ -19,27 +20,11 @@ class _UserDropdownButtonMenuState extends State<UserDropdownButtonMenu> {
       items: const [
         DropdownMenuItem(
           value: 'いちくん',
-          child: Row(children: [
-            Text(
-              'いちくん',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ]),
+          child: UserDropdownItem(name: 'いちくん')
         ),
         DropdownMenuItem(
           value: 'もえちゃん',
-          child: Row(
-            children: [
-              Text(
-                'もえちゃん',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
+          child: UserDropdownItem(name: 'もえちゃん')
         ),
       ],
       value: isSelectedValue,
