@@ -46,6 +46,8 @@ class PieChartSection extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 )
-            ])));
+            ]
+          ))
+        );
   }
 }
