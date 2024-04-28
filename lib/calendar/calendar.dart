@@ -365,6 +365,31 @@ class Calendar extends HookWidget {
           selectedDayState.value = selectedDay;
           focusedDayState.value = focusedDay;
         },
+        calendarBuilders: CalendarBuilders(
+          markerBuilder: (context, day, events) {
+            if (events.isNotEmpty) {
+              // for (int i = 0; i < events.length; i++) {
+              // }
+              return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (int i = 0; i < events.length; i++)
+                      if (events[i].toString().contains("いちくん"))
+                        const Text(
+                          "🌟",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 10),
+                        )
+                      else if (events[i].toString().contains("もえちゃん"))
+                        const Text(
+                          "❤",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 10),
+                        ),
+                  ]);
+            }
+          },
+        ),
       ),
       ListView(
           shrinkWrap: true,
