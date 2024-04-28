@@ -303,7 +303,7 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
               )),
           BarChartDraw(
             monthFoodPrice: monthFoodPriceState,
-            monthAssociatePrice: moeMonthAssociatePriceState,
+            monthAssociatePrice: monthAssociatePriceState,
             monthDailyPrice: moeMonthDailyPriceState,
             monthHobbyPrice: moeMonthHobbyPriceState,
             monthClothPrice: monthClothPriceState,

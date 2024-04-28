@@ -45,82 +45,47 @@ class BarChartDraw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    List<BarChartPropery> barChartPropertyList = [
+    List<BarChartPropery> firstBarChartPropertyList = [
       BarChartPropery(monthFoodPrice, lastMonthFoodPrice, Colors.red),
       BarChartPropery(monthAssociatePrice, lastMonthAssociatePrice, const Color.fromARGB(255, 247, 1, 255)),
       BarChartPropery(monthDailyPrice, lastMonthDailyPrice, const Color(0xFFFDD609)),
+    ];
+    List<BarChartPropery> secondBarChartPropertyList = [
       BarChartPropery(monthHobbyPrice, lastMonthHobbyPrice, const Color.fromARGB(255, 45, 6, 205)),
       BarChartPropery(monthClothPrice, lastMonthClothPrice, const Color.fromARGB(255, 0, 149, 255)),
       BarChartPropery(monthTransPrice, lastMonthTransPrice, const Color.fromARGB(255, 6, 144, 6)),
+    ];
+    List<BarChartPropery> thirdBarChartPropertyList = [
       BarChartPropery(monthBeautyPrice, lastMonthBeautyPrice, const Color.fromARGB(255, 148, 70, 123)),
       BarChartPropery(monthSpecialPrice, lastMonthSpecialPrice, const Color.fromARGB(255, 255, 140, 0)),
       BarChartPropery(monthOtherPrice, lastMonthOtherPrice, const Color.fromARGB(255, 0, 0, 0)),
     ];
-    return Padding(
+    return 
+    Column(children: [
+      Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
         child: SizedBox(
           width: screenWidth * 0.8,
           height: screenWidth * 0.95 * 0.65,
-          child: BarChartSection(barChartPropertyList: barChartPropertyList),
-          // child: BarChart(
-          //   BarChartData(
-          //     borderData: FlBorderData(
-          //       border: const Border(
-          //         top: BorderSide.none,
-          //         right: BorderSide.none,
-          //         left: BorderSide(width: 1),
-          //         bottom: BorderSide(width: 1),
-          //       ),
-          //     ),
-          //     titlesData: FlTitlesData(
-          //         topTitles: const AxisTitles(
-          //             sideTitles: SideTitles(
-          //           showTitles: false,
-          //         )),
-          //         bottomTitles: AxisTitles(
-          //             sideTitles: SideTitles(
-          //           showTitles: true,
-          //           interval: 1.0,
-          //           reservedSize: 42.0,
-          //           getTitlesWidget:(value, meta) => BottomTitleWidgets(value: value, meta: meta),
-          //         ))
-          //     ),
-          //     groupsSpace: 10,
-          //     barGroups: [
-          //       BarChartGroupData(x: 1, barRods: [
-          //         BarChartRodData(
-          //             toY: lastMonthFoodPrice.toDouble(),
-          //             width: 15,
-          //             color: Colors.red),
-          //         BarChartRodData(
-          //             toY: monthFoodPrice.toDouble(),
-          //             width: 15,
-          //             color: Colors.red),
-          //       ]),
-          //       BarChartGroupData(x: 2, barRods: [
-          //         BarChartRodData(
-          //           toY: lastMonthPlayPrice.toDouble(),
-          //           width: 15,
-          //           color: const Color(0xFFFFAE35),
-          //         ),
-          //         BarChartRodData(
-          //             toY: monthPlayPrice.toDouble(),
-          //             width: 15,
-          //             color: const Color(0xFFFFAE35)),
-          //       ]),
-          //       BarChartGroupData(x: 3, barRods: [
-          //         BarChartRodData(
-          //             toY: lastMonthLifePrice.toDouble(),
-          //             width: 15,
-          //             color: const Color(0xFFFDD609)),
-          //         BarChartRodData(
-          //             toY: monthLifePrice.toDouble(),
-          //             width: 15,
-          //             color: const Color(0xFFFDD609)),
-          //       ]),
-          //     ],
-          //   ),
-          // ),
-        ));
+          child: BarChartSection(barChartPropertyList: firstBarChartPropertyList, x: 1),
+        )
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+        child: SizedBox(
+          width: screenWidth * 0.8,
+          height: screenWidth * 0.95 * 0.65,
+          child: BarChartSection(barChartPropertyList: secondBarChartPropertyList, x: 4),
+        )
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+        child: SizedBox(
+          width: screenWidth * 0.8,
+          height: screenWidth * 0.95 * 0.65,
+          child: BarChartSection(barChartPropertyList: thirdBarChartPropertyList, x: 7),
+        )
+      )
+    ]);
   }
 }
