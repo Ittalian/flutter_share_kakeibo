@@ -90,7 +90,7 @@ class _RegistrationState extends State<Registration> {
                 fontSize: 20,
               ),
             ),
-            const SizedBox(width: 50),
+            const SizedBox(width: 30),
             UserDropdownButtonMenu(
               currentUser: user,
               notifyParent: setUser,

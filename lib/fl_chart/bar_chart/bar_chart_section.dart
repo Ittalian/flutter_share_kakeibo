@@ -5,7 +5,12 @@ import 'bottom_title_widgets.dart';
 
 class BarChartSection extends StatelessWidget {
   final List<BarChartPropery> barChartPropertyList;
-  const BarChartSection({required this.barChartPropertyList, super.key});
+  final double x;
+  const BarChartSection({
+    required this.barChartPropertyList,
+    required this.x,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,37 +40,16 @@ class BarChartSection extends StatelessWidget {
         groupsSpace: 10,
         barGroups: [
           for (int i = 0; i < barChartPropertyList.length; i++)
-            BarChartGroupData(x: i + 1, barRods: [
-              BarChartRodData(
-                  toY: barChartPropertyList[i].lastMonthPrice.toDouble(),
-                  width: 15,
-                  color: barChartPropertyList[i].color),
-              BarChartRodData(
-                  toY: barChartPropertyList[i].price.toDouble(),
-                  width: 15,
-                  color: barChartPropertyList[i].color),
-            ])
-          // BarChartGroupData(x: 2, barRods: [
-          //   BarChartRodData(
-          //     toY: lastMonthPlayPrice.toDouble(),
-          //     width: 15,
-          //     color: const Color(0xFFFFAE35),
-          //   ),
-          //   BarChartRodData(
-          //       toY: monthPlayPrice.toDouble(),
-          //       width: 15,
-          //       color: const Color(0xFFFFAE35)),
-          // ]),
-          // BarChartGroupData(x: 3, barRods: [
-          //   BarChartRodData(
-          //       toY: lastMonthLifePrice.toDouble(),
-          //       width: 15,
-          //       color: const Color(0xFFFDD609)),
-          //   BarChartRodData(
-          //       toY: monthLifePrice.toDouble(),
-          //       width: 15,
-          //       color: const Color(0xFFFDD609)),
-          // ]),
+              BarChartGroupData(x: (i + x).toInt(), barRods: [
+                BarChartRodData(
+                    toY: barChartPropertyList[i].lastMonthPrice.toDouble(),
+                    width: 15,
+                    color: barChartPropertyList[i].color),
+                BarChartRodData(
+                    toY: barChartPropertyList[i].price.toDouble(),
+                    width: 15,
+                    color: barChartPropertyList[i].color),
+              ])
         ],
       ),
     );
