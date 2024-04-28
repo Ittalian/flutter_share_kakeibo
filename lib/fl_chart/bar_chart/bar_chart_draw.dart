@@ -58,7 +58,7 @@ class BarChartDraw extends StatelessWidget {
     List<BarChartPropery> thirdBarChartPropertyList = [
       BarChartPropery(monthBeautyPrice, lastMonthBeautyPrice, const Color.fromARGB(255, 148, 70, 123)),
       BarChartPropery(monthSpecialPrice, lastMonthSpecialPrice, const Color.fromARGB(255, 255, 140, 0)),
-      BarChartPropery(monthOtherPrice, lastMonthOtherPrice, const Color.fromARGB(255, 0, 0, 0)),
+      BarChartPropery(monthOtherPrice, lastMonthOtherPrice, const Color.fromARGB(255, 198, 116, 2)),
     ];
     return 
     Column(children: [

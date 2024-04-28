@@ -25,14 +25,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyHomePage(),
+      home: MyHomePage(isFromCalendar: false),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final bool isFromCalendar;
+  const MyHomePage({required this.isFromCalendar, super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -54,8 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
 
+    if (widget.isFromCalendar) {
+      _selectIndex = 2;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: _pages[_selectIndex],
