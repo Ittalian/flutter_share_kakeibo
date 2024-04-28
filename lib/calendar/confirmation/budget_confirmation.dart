@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../fl_chart/pie_chart_draw.dart';
-import '../../fl_chart/bar_chart_draw.dart';
+import '../../fl_chart/pie_chart/pie_chart_draw.dart';
+import '../../fl_chart/bar_chart/bar_chart_draw.dart';
 import 'package:share_kakeibo/main.dart';
 
 class BudgetConfirmation extends StatefulWidget {
@@ -303,11 +303,23 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
               )),
           BarChartDraw(
             monthFoodPrice: monthFoodPriceState,
-            monthLifePrice: monthAssociatePriceState,
-            monthPlayPrice: monthClothPriceState,
+            monthAssociatePrice: moeMonthAssociatePriceState,
+            monthDailyPrice: moeMonthDailyPriceState,
+            monthHobbyPrice: moeMonthHobbyPriceState,
+            monthClothPrice: monthClothPriceState,
+            monthTransPrice: monthTransPriceState,
+            monthBeautyPrice: monthBeautyPriceState,
+            monthSpecialPrice: monthSpecialPriceState,
+            monthOtherPrice: moeMonthOtherPriceState,
             lastMonthFoodPrice: lastMonthFoodPriceState,
-            lastMonthPlayPrice: monthAssociatePriceState,
-            lastMonthLifePrice: monthClothPriceState,
+            lastMonthAssociatePrice: lastMonthAssociatePriceState,
+            lastMonthDailyPrice: lastMonthDailyPriceState,
+            lastMonthHobbyPrice: lastMonthHobbyPriceState,
+            lastMonthClothPrice: lastMonthClothPriceState,
+            lastMonthTransPrice: lastMonthTransPriceState,
+            lastMonthBeautyPrice: lastMonthBeautyPriceState,
+            lastMonthSpecialPrice: lastMonthSpecialPriceState,
+            lastMonthOtherPrice: lastMonthOtherPriceState,
           )
         ])),
         floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
