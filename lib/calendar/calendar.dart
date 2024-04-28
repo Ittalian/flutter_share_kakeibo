@@ -154,7 +154,7 @@ class Calendar extends HookWidget {
       TableCalendar(
         firstDay: DateTime.utc(DateTime.now().year, 1, 1),
         lastDay: DateTime.utc(DateTime.now().year + 100, 12, 31),
-        focusedDay: DateTime.now(),
+        focusedDay: focusedDayState.value,
         locale: 'ja_JP',
         eventLoader: getEventForDay,
         headerStyle: const HeaderStyle(formatButtonVisible: false),

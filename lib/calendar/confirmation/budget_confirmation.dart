@@ -184,13 +184,13 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
     num limitPrice = 40000 - totalPrice;
     String fightText = "";
     if (limitPrice > 30000) {
-      fightText = "まだ余裕あるね!";
+      fightText = "まだ余裕あるね ！";
     } else if (limitPrice > 20000) {
       fightText = "ちょっと節約した方がいいかも💦";
     } else if (limitPrice > 10000) {
-      fightText = "あんまり余裕ないから気を付けて！";
+      fightText = "あまり余裕ないから気を付けて ！";
     } else {
-      fightText = "もう浪費しちゃダメだよ！";
+      fightText = "もう浪費しちゃダメだよ ！";
     }
 
     return Scaffold(
@@ -208,19 +208,19 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
               ),
               alignment: Alignment.center,
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
                   child: Column(children: [
                     Text(
                       "４万円まであと${limitPrice.toString()}円 ！",
                       style: const TextStyle(
-                        fontSize: 25,
+                        fontSize: 21,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       fightText,
                       style: const TextStyle(
-                        fontSize: 25,
+                        fontSize: 21,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
