@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:share_kakeibo/fl_chart/pie_chart_section/pie_chart_property.dart';
-import 'pie_chart_section/pie_chart_section.dart';
+import 'package:share_kakeibo/fl_chart/pie_chart/pie_chart_property.dart';
+import 'pie_chart_section.dart';
 
 class PieChartDraw extends StatelessWidget {
   final num foodPrice;
