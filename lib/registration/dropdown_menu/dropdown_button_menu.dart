@@ -52,7 +52,7 @@ class _DropdownButtonMenuState extends State<DropdownButtonMenu> {
         ),
         DropdownMenuItem(
           value: 'その他',
-          child: DropdownItem(category: 'その他', color: Color.fromARGB(255, 0, 0, 0))
+          child: DropdownItem(category: 'その他', color: Color.fromARGB(255, 198, 116, 2))
         ),
       ],
       value: isSelectedValue,

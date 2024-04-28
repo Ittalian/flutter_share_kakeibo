@@ -57,7 +57,7 @@ class PieChartDraw extends StatelessWidget {
         specialPrice, '特別費', const Color.fromARGB(255, 255, 140, 0)
       ),
       PieChartProperty(
-        otherPrice, 'その他', const Color.fromARGB(255, 0, 0, 0)
+        otherPrice, 'その他', const Color.fromARGB(255, 198, 116, 2)
       ),
     ];
 

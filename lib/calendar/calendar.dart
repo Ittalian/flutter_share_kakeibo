@@ -367,27 +367,30 @@ class Calendar extends HookWidget {
         },
         calendarBuilders: CalendarBuilders(
           markerBuilder: (context, day, events) {
-            if (events.isNotEmpty) {
-              // for (int i = 0; i < events.length; i++) {
-              // }
-              return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for (int i = 0; i < events.length; i++)
-                      if (events[i].toString().contains("いちくん"))
-                        const Text(
-                          "🌟",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        )
-                      else if (events[i].toString().contains("もえちゃん"))
-                        const Text(
-                          "❤",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                  ]);
-            }
+            return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              for (int i = 0; i < events.length; i++)
+                if (i == 3)
+                  const Padding(
+                      padding: EdgeInsets.only(left: 3),
+                      child: Text(
+                        "...",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 10),
+                      ))
+                else if (i < 4)
+                  if (events[i].toString().contains("いちくん"))
+                    const Text(
+                      "🌟",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    )
+                  else if (events[i].toString().contains("もえちゃん"))
+                    const Text(
+                      "❤",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    )
+            ]);
           },
         ),
       ),
@@ -439,14 +442,11 @@ class Calendar extends HookWidget {
                                             .where('price',
                                                 isEqualTo: deletePrice)
                                             .get();
-                                        query.docs.forEach((doc) {
-                                          doc.reference.delete();
-                                        });
+                                        query.docs[0].reference.delete();
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const MyHomePage()));
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const MyHomePage(isFromCalendar: true))
+                                        );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: const Text('削除しました'),
@@ -469,7 +469,7 @@ class Calendar extends HookWidget {
                         child: const Text("削除"))
                   ])))
               .toList()),
-      const Padding(padding: EdgeInsets.only(top: 20))
+      const Padding(padding: EdgeInsets.only(top: 20)),
     ]));
   }
 }

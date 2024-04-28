@@ -310,7 +310,7 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
             monthTransPrice: monthTransPriceState,
             monthBeautyPrice: monthBeautyPriceState,
             monthSpecialPrice: monthSpecialPriceState,
-            monthOtherPrice: moeMonthOtherPriceState,
+            monthOtherPrice: monthOtherPriceState,
             lastMonthFoodPrice: lastMonthFoodPriceState,
             lastMonthAssociatePrice: lastMonthAssociatePriceState,
             lastMonthDailyPrice: lastMonthDailyPriceState,
@@ -330,7 +330,7 @@ class _BudgetConfirmationState extends State<BudgetConfirmation> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MyHomePage()));
+                        builder: (context) => const MyHomePage(isFromCalendar: false)));
               },
               child: const Icon(Icons.home),
             )));

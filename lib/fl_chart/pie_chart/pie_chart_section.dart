@@ -39,7 +39,7 @@ class PieChartSection extends StatelessWidget {
                 PieChartSectionData(
                   color: pieChartProperty.color,
                   value: pieChartProperty.price / totalPrice * 130,
-                  title: '${pieChartProperty.caterogy}\n${pieChartProperty.price.toString()}円',
+                  title: '${pieChartProperty.caterogy}\n${pieChartProperty.price.toString()}',
                   radius: radius,
                   titleStyle: const TextStyle(
                       fontSize: 13,
