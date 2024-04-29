@@ -151,6 +151,35 @@ class Calendar extends HookWidget {
         margin: const EdgeInsets.only(top: 50),
         child: Image.asset('images/calendar.jpg'),
       ),
+      const Padding(padding: EdgeInsets.only(top: 20)),
+      Container(
+        padding: const EdgeInsets.only(right: 20),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 6),
+            width: 100,
+            decoration: BoxDecoration(
+              border: Border.all()
+            ),
+            child: const Column(children: [
+              Text(
+                "🌟 いちくん　",
+                style: TextStyle(
+                  fontSize: 11,
+                ),
+              ),
+              Text(
+                "❤ もえちゃん",
+                style: TextStyle(
+                  fontSize: 11,
+                ),
+              ),
+              ]
+            ),
+          )
+        )
+      ),
       TableCalendar(
         firstDay: DateTime.utc(DateTime.now().year, 1, 1),
         lastDay: DateTime.utc(DateTime.now().year + 100, 12, 31),
